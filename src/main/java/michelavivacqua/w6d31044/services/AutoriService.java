@@ -4,6 +4,10 @@ import michelavivacqua.w6d31044.entities.Autore;
 import michelavivacqua.w6d31044.exceptions.NotFoundException;
 import michelavivacqua.w6d31044.repositories.AutoriDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -14,6 +18,12 @@ public class AutoriService {
 
     public List<Autore> getAutoriList() {
         return autoreRepository.findAll();
+    }
+
+    public Page<Autore> getAutori(int page, int size, String sortBy){
+        if(size > 100) size = 100;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return this.autoreRepository.findAll(pageable);
     }
 
     public Autore saveAutore(Autore body) {

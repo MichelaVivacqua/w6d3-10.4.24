@@ -3,6 +3,7 @@ package michelavivacqua.w6d31044.controllers;
 import michelavivacqua.w6d31044.entities.Autore;
 import michelavivacqua.w6d31044.services.AutoriService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,13 +15,18 @@ import java.util.List;
         @Autowired
         private AutoriService autoriService;
 
-        // 1. GET http://localhost:3001/authors (ritorna la lista di autori)
-        @GetMapping
-        private List<Autore> getAllAutori(){
-            return this.autoriService.getAutoriList();
-        }
+//         1. GET http://localhost:3001/authors (ritorna la lista di autori)
+//        @GetMapping
+//        private List<Autore> getAllAutori(){
+//            return this.autoriService.getAutoriList();
+//        }
 
-
+     @GetMapping
+     public Page<Autore> getAllUsers(@RequestParam(defaultValue = "0") int page,
+                                     @RequestParam(defaultValue = "2") int size,
+                                     @RequestParam(defaultValue = "id") String sortBy) {
+         return this.autoriService.getAutori(page, size, sortBy);
+     }
 
         // 2. GET http://localhost:3001/authors/{{authorId}} (ritorna un singolo autore)
         @GetMapping("/{authorId}")
