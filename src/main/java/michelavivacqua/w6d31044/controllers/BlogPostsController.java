@@ -1,6 +1,10 @@
 package michelavivacqua.w6d31044.controllers;
 
+import michelavivacqua.w6d31044.entities.Autore;
 import michelavivacqua.w6d31044.entities.BlogPost;
+import michelavivacqua.w6d31044.entities.BlogPostPayload;
+import michelavivacqua.w6d31044.exceptions.NotFoundException;
+import michelavivacqua.w6d31044.services.AutoriService;
 import michelavivacqua.w6d31044.services.BlogPostsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +17,9 @@ import java.util.List;
 public class BlogPostsController {
     @Autowired
     private BlogPostsService blogPostsService;
+
+    @Autowired
+    private AutoriService autoriService;
 
     // 1. GET http://localhost:3001/blogPosts (ritorna la lista di blog posts)
     @GetMapping
@@ -28,12 +35,15 @@ public class BlogPostsController {
         return this.blogPostsService.findById(blogPostId);
     }
 
-    // 3. POST http://localhost:3001/blogPosts (+ body) (crea un nuovo blog post)
+
+//     3. POST http://localhost:3001/blogPosts (+ body) (crea un nuovo blog post)
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED) // Status Code 201
     private BlogPost saveBlogPost(@RequestBody BlogPost body){
         return this.blogPostsService.saveBlogPost(body);
     }
+
+
 
     // 4. PUT http://localhost:3001/blogPosts/{{blogPostId}} (+ body) (modifica lo specifico blog post)
     @PutMapping("/{blogPostId}")

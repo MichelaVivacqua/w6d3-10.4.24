@@ -2,6 +2,7 @@ package michelavivacqua.w6d31044.services;
 
 import michelavivacqua.w6d31044.entities.Autore;
 import michelavivacqua.w6d31044.entities.BlogPost;
+import michelavivacqua.w6d31044.entities.BlogPostPayload;
 import michelavivacqua.w6d31044.exceptions.NotFoundException;
 import michelavivacqua.w6d31044.repositories.AutoriDAO;
 import michelavivacqua.w6d31044.repositories.BlogPostsDAO;
@@ -13,6 +14,8 @@ import java.util.List;
 public class BlogPostsService {
     @Autowired
     private BlogPostsDAO blogPostRepository;
+    @Autowired
+    private AutoriDAO autoreRepository;
 
     public List<BlogPost> getBlogPostsList() {
         return blogPostRepository.findAll();
@@ -21,6 +24,8 @@ public class BlogPostsService {
     public BlogPost saveBlogPost(BlogPost body) {
         return blogPostRepository.save(body);
     }
+
+
 
     public BlogPost findById(int id) {
         return blogPostRepository.findById(id)
