@@ -41,11 +41,13 @@ import java.util.List;
             return this.autoriService.findByIdAndUpdate(authorId, body);
         }
 
-        // 5. DELETE http://localhost:3001/authors/{{authorId}} (cancella lo specifico autore)
-        @DeleteMapping("/{authorId}")
-        @ResponseStatus(HttpStatus.NO_CONTENT) // Status Code 204
-        private void findAutoreByIdAndDelete(@PathVariable int authorId){
-            this.autoriService.findByIdAndDelete(authorId);
-        }
+
+
+     // 5. DELETE http://localhost:3001/authors/{authorId} (cancella lo specifico autore)
+     @DeleteMapping("/{authorId}")
+     @ResponseStatus(HttpStatus.NO_CONTENT) // Status Code 204
+     public void deleteAutoreById(@PathVariable int authorId) {
+         this.autoriService.findByIdAndDelete(authorId);
+     }
     }
 

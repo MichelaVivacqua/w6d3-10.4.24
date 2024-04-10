@@ -2,59 +2,37 @@ package michelavivacqua.w6d31044.services;
 
 import michelavivacqua.w6d31044.entities.Autore;
 import michelavivacqua.w6d31044.exceptions.NotFoundException;
+import michelavivacqua.w6d31044.repositories.AutoriDAO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class AutoriService {
-    private List<Autore> autoriList = new ArrayList<>();
+    @Autowired
+    private AutoriDAO autoreRepository;
 
-    public List<Autore> getAutoriList(){
-        return this.autoriList;
+    public List<Autore> getAutoriList() {
+        return autoreRepository.findAll();
     }
 
-    public Autore saveAutore (Autore body){
-        Random rndm = new Random();
-        body.setId(rndm.nextInt(1,10000));
-        this.autoriList.add(body);
-        return body;
+    public Autore saveAutore(Autore body) {
+        return autoreRepository.save(body);
     }
 
-    public Autore findById(int id){
-        Autore found = null;
-        for(Autore autore: this.autoriList){
-            if(autore.getId() == id) found = autore;
-        }
-        if(found == null) throw new NotFoundException(id);
-        else return found;
+    public Autore findById(int id) {
+        return autoreRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(id));
     }
 
-    public Autore findByIdAndUpdate(int id, Autore updatedAutore){
-        Autore found = null;
-        for(Autore autore: this.autoriList){
-            if(autore.getId() == id) {
-                found = autore;
-                found.setNome(updatedAutore.getNome());
-                found.setCognome(updatedAutore.getCognome());
-            }
-        }
-        if(found == null) throw new NotFoundException(id);
-        else return found;
+    public Autore findByIdAndUpdate(int id, Autore updatedAutore) {
+        Autore found = findById(id);
+        found.setNome(updatedAutore.getNome());
+        found.setCognome(updatedAutore.getCognome());
+        return autoreRepository.save(found);
     }
 
-    public void findByIdAndDelete(int id){
-        Iterator<Autore> iterator = this.autoriList.iterator();
-
-        while(iterator.hasNext()){
-            Autore current = iterator.next();
-            if(current.getId() == id){
-                iterator.remove();
-            }
-        }
-
+    public void findByIdAndDelete(int authorId) {
+        autoreRepository.deleteById(authorId);
     }
 }
